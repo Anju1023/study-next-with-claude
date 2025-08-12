@@ -9,12 +9,9 @@ function WeatherCard() {
 	useEffect(() => {
 		console.log('WeatherCardが表示されました〜');
 
-		const apiKey = 'demo';
-		const cityName = 'Tokyo';
+		const cityName = 'Okinawa';
 
-		fetch(
-			`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=ja`
-		)
+		fetch(`https://wttr.in/${cityName}?format=j1`)
 			.then((response) => {
 				if (!response.ok) {
 					throw new Error('天気データが取得できませんでした');
@@ -24,10 +21,28 @@ function WeatherCard() {
 			.then((data) => {
 				console.log('天気データが来た！', data);
 				alert('天気APIが呼ばれました！');
+
+				const currentWeather = data.current_condition[0];
+				const temp = currentWeather.temp_C;
+				const desc = currentWeather.weatherDesc[0].value;
+
+				alert(`${cityName}の現在の天気: ${desc}、気温: ${temp}℃`);
+
+				setTemp(parseInt(temp));
+
+				if (desc.includes('Sunny') || desc.includes('Clear')) {
+					setWeather('☀️');
+				} else if (desc.includes('Rain')) {
+					setWeather('🌧️');
+				} else if (desc.includes('Cloud')) {
+					setWeather('☁️');
+				} else if (desc.includes('Snow')) {
+					setWeather('❄️');
+				}
 			})
 			.catch((error) => {
 				console.log('エラーが起きた〜', error);
-				alert('天気API呼び出しでエラーが出ました(正常です)');
+				alert('天気データの取得に失敗しました');
 			});
 	}, []);
 
