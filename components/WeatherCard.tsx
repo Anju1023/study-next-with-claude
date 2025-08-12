@@ -8,7 +8,27 @@ function WeatherCard() {
 
 	useEffect(() => {
 		console.log('WeatherCardが表示されました〜');
-		alert('useEffectが動いたよ〜');
+
+		const apiKey = 'demo';
+		const cityName = 'Tokyo';
+
+		fetch(
+			`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}&units=metric&lang=ja`
+		)
+			.then((response) => {
+				if (!response.ok) {
+					throw new Error('天気データが取得できませんでした');
+				}
+				return response.json();
+			})
+			.then((data) => {
+				console.log('天気データが来た！', data);
+				alert('天気APIが呼ばれました！');
+			})
+			.catch((error) => {
+				console.log('エラーが起きた〜', error);
+				alert('天気API呼び出しでエラーが出ました(正常です)');
+			});
 	}, []);
 
 	// 曇りに変える
