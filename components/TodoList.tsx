@@ -57,8 +57,14 @@ export default function TodoList() {
 			<div>
 				<h3 className="font-bold mb-2">Todo一覧:</h3>
 				{todos.map((todo) => (
-					<div key={todo.id} className="bg-white p-2 mb-1 rounded border">
-						{todo.text}
+					<div
+						key={todo.id}
+						className="bg-white p-2 mb-1 rounded border flex justify-between items-center"
+					>
+						<span>{todo.text}</span>
+						<button className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded text-sm font-bold">
+							×
+						</button>
 					</div>
 				))}
 			</div>
