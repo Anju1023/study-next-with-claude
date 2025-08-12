@@ -3,6 +3,7 @@
 import React from 'react';
 import Hello from '../../components/Hello';
 import Counter from '../../components/Counter';
+import TodoList from '../../components/TodoList';
 
 export default function Home() {
 	return (
@@ -14,6 +15,7 @@ export default function Home() {
 			<Hello name="くーちゃん" age={25} />
 
 			<Counter />
+			<TodoList />
 		</main>
 	);
 }
