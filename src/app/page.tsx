@@ -4,6 +4,7 @@ import React from 'react';
 import Hello from '../../components/Hello';
 import Counter from '../../components/Counter';
 import TodoList from '../../components/TodoList';
+import WeatherCard from '../../components/WeatherCard';
 
 export default function Home() {
 	return (
@@ -16,6 +17,7 @@ export default function Home() {
 
 			<Counter />
 			<TodoList />
+			<WeatherCard />
 		</main>
 	);
 }
