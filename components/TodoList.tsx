@@ -3,6 +3,7 @@ import { useState } from 'react';
 type Todo = {
 	id: number;
 	text: string;
+	completed: boolean;
 };
 
 // 関数
@@ -20,6 +21,7 @@ export default function TodoList() {
 		const newTodo: Todo = {
 			id: Date.now(),
 			text: inputText,
+			completed: false,
 		};
 
 		setTodos([...todos, newTodo]);
@@ -29,6 +31,17 @@ export default function TodoList() {
 	// 削除機能
 	const deleteTodo = (deleteId: number) => {
 		const newTodos = todos.filter((todo) => todo.id !== deleteId);
+		setTodos(newTodos);
+	};
+
+	// 完了切り替え機能
+	const toggleComplete = (toggleId: number) => {
+		const newTodos = todos.map((todo) => {
+			if (todo.id === toggleId) {
+				return { ...todo, completed: !todo.completed };
+			}
+			return todo;
+		});
 		setTodos(newTodos);
 	};
 
@@ -67,7 +80,16 @@ export default function TodoList() {
 						key={todo.id}
 						className="bg-white p-2 mb-1 rounded border flex justify-between items-center"
 					>
-						<span>{todo.text}</span>
+						<div className="flex items-center gap-2">
+							<input
+								type="checkbox"
+								checked={todo.completed}
+								onChange={() => toggleComplete(todo.id)}
+								className="w-4 h-4"
+							/>
+							<span>{todo.text}</span>
+						</div>
+
 						<button
 							onClick={() => deleteTodo(todo.id)}
 							className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded text-sm font-bold"
