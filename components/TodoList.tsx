@@ -5,34 +5,63 @@ type Todo = {
 	text: string;
 };
 
+// 関数
 export default function TodoList() {
 	const [todos, setTodos] = useState<Todo[]>([]);
+	const [inputText, setInputText] = useState<string>('');
+
+	// これはアロー関数
+	const addTodo = () => {
+		if (inputText.trim() === '') {
+			alert('何か入力してね～');
+			return;
+		}
+
+		const newTodo: Todo = {
+			id: Date.now(),
+			text: inputText,
+		};
+
+		setTodos([...todos, newTodo]);
+		setInputText('');
+	};
 
 	return (
-		<div className="bg-blue-50 p-6 rounded-lg">
-			<h2 className="text-xl font-bold mb-4">Todo管理(useState版)</h2>
+		<div className="bg-gradient-to-r from-pink-50 to-purple-50 p-6  border border-pink-200 rounded-lg">
+			<h2 className="text-xl text-purple-700 font-bold mb-4">
+				Todo管理(入力付き)
+			</h2>
 
-			<div className="mb-4">
-				<p>現在のtodo配列:</p>
-				<pre className="bg-gray-100 p-2 rounded text-sm">
-					{JSON.stringify(todos, null, 2)}
-				</pre>
-				<p>配列の長さ: {todos.length}個</p>
+			<div className="mb-4 flex gap-2">
+				<input
+					type="text"
+					value={inputText}
+					onChange={(e) => setInputText(e.target.value)}
+					placeholder="新しいタスクを入力してねえ～"
+					className="flex-1 px-3 py-2 border rounded"
+				/>
+
+				<button
+					onClick={addTodo}
+					className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded"
+				>
+					追加
+				</button>
 			</div>
 
-			<button
-				onClick={() => {
-					const newTodo: Todo = {
-						id: Date.now(),
-						text: '手動で追加されたタスク',
-					};
+			<div className="mb-4 text-sm">
+				<p>入力中の文字: 「{inputText}」</p>
+				<p>Todo数: {todos.length}個</p>
+			</div>
 
-					setTodos([...todos, newTodo]);
-				}}
-				className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-			>
-				テスト用: Todoを1個追加
-			</button>
+			<div>
+				<h3 className="font-bold mb-2">Todo一覧:</h3>
+				{todos.map((todo) => (
+					<div key={todo.id} className="bg-white p-2 mb-1 rounded border">
+						{todo.text}
+					</div>
+				))}
+			</div>
 		</div>
 	);
 }
