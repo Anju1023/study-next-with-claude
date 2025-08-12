@@ -87,7 +87,11 @@ export default function TodoList() {
 								onChange={() => toggleComplete(todo.id)}
 								className="w-4 h-4"
 							/>
-							<span>{todo.text}</span>
+							<span
+								className={todo.completed ? 'line-through text-gray-500' : ''}
+							>
+								{todo.text}
+							</span>
 						</div>
 
 						<button
