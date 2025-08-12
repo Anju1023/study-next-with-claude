@@ -26,6 +26,12 @@ export default function TodoList() {
 		setInputText('');
 	};
 
+	// 削除機能
+	const deleteTodo = (deleteId: number) => {
+		const newTodos = todos.filter((todo) => todo.id !== deleteId);
+		setTodos(newTodos);
+	};
+
 	return (
 		<div className="bg-gradient-to-r from-pink-50 to-purple-50 p-6  border border-pink-200 rounded-lg">
 			<h2 className="text-xl text-purple-700 font-bold mb-4">
@@ -62,7 +68,10 @@ export default function TodoList() {
 						className="bg-white p-2 mb-1 rounded border flex justify-between items-center"
 					>
 						<span>{todo.text}</span>
-						<button className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded text-sm font-bold">
+						<button
+							onClick={() => deleteTodo(todo.id)}
+							className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded text-sm font-bold"
+						>
 							×
 						</button>
 					</div>
