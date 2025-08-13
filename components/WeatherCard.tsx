@@ -5,6 +5,7 @@ function WeatherCard() {
 	const [temp, setTemp] = useState<number>(22);
 	const [city, setCity] = useState<string>('東京');
 	const [inputCity, setInputCity] = useState<string>('');
+	const [weatherDesc, setWeatherDesc] = useState<string>('晴れ');
 
 	useEffect(() => {
 		console.log('WeatherCardが表示されました〜');
@@ -65,33 +66,43 @@ function WeatherCard() {
 
 				setTemp(parseInt(temp));
 
+				let japaneseDesc = '';
 				const lowerDesc = desc.toLowerCase();
 
 				if (lowerDesc.includes('sunny') || lowerDesc.includes('Clear')) {
+					japaneseDesc = '晴れ';
 					setWeather('☀️');
 				} else if (lowerDesc.includes('rain') || lowerDesc.includes('shower')) {
+					japaneseDesc = '雨';
 					setWeather('🌧️');
 				} else if (
 					lowerDesc.includes('partly cloudy') ||
 					lowerDesc.includes('partly cloud')
 				) {
+					japaneseDesc = '一部曇り';
 					setWeather('⛅');
 				} else if (
 					lowerDesc.includes('cloudy') ||
 					lowerDesc.includes('cloud') ||
 					lowerDesc.includes('overcast')
 				) {
+					japaneseDesc = '曇り';
 					setWeather('☁️');
 				} else if (
 					lowerDesc.includes('snow') ||
 					lowerDesc.includes('blizzard')
 				) {
+					japaneseDesc = '雪';
 					setWeather('❄️');
 				} else if (lowerDesc.includes('fog') || lowerDesc.includes('mist')) {
+					japaneseDesc = '霧';
 					setWeather('🌫️');
 				} else {
+					japaneseDesc = desc;
 					setWeather('🌤️');
 				}
+
+				setWeatherDesc(japaneseDesc);
 			})
 			.catch((error) => {
 				console.log(`${cityName}の天気データの取得に失敗しました`);
@@ -124,7 +135,7 @@ function WeatherCard() {
 				<h4 className="text-lg font-bold text-purple-800 mb-2">📍 {city}</h4>
 				<div className="text-5xl mb-2">{weather}</div>
 				<div className="text-4xl font-bold text-blue-600 mb-2">{temp}℃</div>
-				<div className="text-lg text-gray-700 mb-4">晴れ</div>
+				<div className="text-lg text-gray-700 mb-4">{weatherDesc}</div>
 
 				<div>
 					<button
