@@ -9,7 +9,43 @@ function WeatherCard() {
 	useEffect(() => {
 		console.log('WeatherCardが表示されました〜');
 
-		const cityName = 'Okinawa';
+		fetchWeather('Tokyo');
+	}, []);
+
+	const changeSunny = () => {
+		setWeather('☀️');
+		setTemp(25);
+	};
+
+	const changeRainy = () => {
+		setWeather('🌧️');
+		setTemp(18);
+	};
+
+	const changeSnowy = () => {
+		setWeather('❄️');
+		setTemp(2);
+	};
+
+	// 曇りに変える
+	const changeCloudy = () => {
+		setWeather('☁️');
+		setTemp(20);
+	};
+
+	// 都市名を入力
+	const changeCity = () => {
+		if (inputCity.trim() === '') {
+			alert('都市名を入力してねえ');
+			return;
+		}
+		fetchWeather(inputCity);
+		setCity(inputCity);
+		setInputCity('');
+	};
+
+	const fetchWeather = (cityName: string) => {
+		console.log(`${cityName}の転機を取得中...`);
 
 		fetch(`https://wttr.in/${cityName}?format=j1`)
 			.then((response) => {
@@ -19,8 +55,7 @@ function WeatherCard() {
 				return response.json();
 			})
 			.then((data) => {
-				console.log('天気データが来た！', data);
-				alert('天気APIが呼ばれました！');
+				console.log(`${cityName}の天気データが来た！`, data);
 
 				const currentWeather = data.current_condition[0];
 				const temp = currentWeather.temp_C;
@@ -30,36 +65,37 @@ function WeatherCard() {
 
 				setTemp(parseInt(temp));
 
-				if (desc.includes('Sunny') || desc.includes('Clear')) {
+				const lowerDesc = desc.toLowerCase();
+
+				if (lowerDesc.includes('sunny') || lowerDesc.includes('Clear')) {
 					setWeather('☀️');
-				} else if (desc.includes('Rain')) {
+				} else if (lowerDesc.includes('rain') || lowerDesc.includes('shower')) {
 					setWeather('🌧️');
-				} else if (desc.includes('Cloud')) {
+				} else if (
+					lowerDesc.includes('partly cloudy') ||
+					lowerDesc.includes('partly cloud')
+				) {
+					setWeather('⛅');
+				} else if (
+					lowerDesc.includes('cloudy') ||
+					lowerDesc.includes('cloud') ||
+					lowerDesc.includes('overcast')
+				) {
 					setWeather('☁️');
-				} else if (desc.includes('Snow')) {
+				} else if (
+					lowerDesc.includes('snow') ||
+					lowerDesc.includes('blizzard')
+				) {
 					setWeather('❄️');
+				} else if (lowerDesc.includes('fog') || lowerDesc.includes('mist')) {
+					setWeather('🌫️');
+				} else {
+					setWeather('🌤️');
 				}
 			})
 			.catch((error) => {
-				console.log('エラーが起きた〜', error);
-				alert('天気データの取得に失敗しました');
+				console.log(`${cityName}の天気データの取得に失敗しました`);
 			});
-	}, []);
-
-	// 曇りに変える
-	const changeWeather = () => {
-		setWeather('☁️');
-		setTemp(18);
-	};
-
-	// 都市名を入力
-	const changeCity = () => {
-		if (inputCity.trim() === '') {
-			alert('都市名を入力してねえ');
-			return;
-		}
-		setCity(inputCity);
-		setInputCity('');
 	};
 
 	return (
@@ -85,16 +121,37 @@ function WeatherCard() {
 			</div>
 
 			<div className="bg-white/50 rounded-lg p-4 text-center">
-				<h4 className="text-lg font-bold text-purple-800 mb-2">{city}</h4>
+				<h4 className="text-lg font-bold text-purple-800 mb-2">📍 {city}</h4>
 				<div className="text-5xl mb-2">{weather}</div>
 				<div className="text-4xl font-bold text-blue-600 mb-2">{temp}℃</div>
 				<div className="text-lg text-gray-700 mb-4">晴れ</div>
-				<button
-					onClick={changeWeather}
-					className="bg-pink-500 hover:bg-pink-600 text-white px-4 py-2 rounded-lg"
-				>
-					曇りにして！！
-				</button>
+
+				<div>
+					<button
+						onClick={changeSunny}
+						className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-sm"
+					>
+						☀️ 晴れ
+					</button>
+					<button
+						onClick={changeCloudy}
+						className="bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 rounded-lg text-sm"
+					>
+						☁️ 曇り
+					</button>
+					<button
+						onClick={changeSunny}
+						className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm"
+					>
+						🌧️ 雨
+					</button>
+					<button
+						onClick={changeSunny}
+						className="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded-lg text-sm"
+					>
+						❄️ 雪
+					</button>
+				</div>
 			</div>
 		</div>
 	);
