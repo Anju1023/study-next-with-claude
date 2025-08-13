@@ -46,7 +46,7 @@ function WeatherCard() {
 	};
 
 	const fetchWeather = (cityName: string) => {
-		console.log(`${cityName}の転機を取得中...`);
+		console.log(`${cityName}の天気を取得中...`);
 
 		fetch(`https://wttr.in/${cityName}?format=j1`)
 			.then((response) => {
@@ -69,7 +69,7 @@ function WeatherCard() {
 				let japaneseDesc = '';
 				const lowerDesc = desc.toLowerCase();
 
-				if (lowerDesc.includes('sunny') || lowerDesc.includes('Clear')) {
+				if (lowerDesc.includes('sunny') || lowerDesc.includes('clear')) {
 					japaneseDesc = '晴れ';
 					setWeather('☀️');
 				} else if (lowerDesc.includes('rain') || lowerDesc.includes('shower')) {
@@ -115,7 +115,7 @@ function WeatherCard() {
 				天気予報 ☁️
 			</h3>
 
-			<div>
+			<div className="mb-4 flex gap-2">
 				<input
 					type="text"
 					value={inputCity}
@@ -125,7 +125,7 @@ function WeatherCard() {
 				/>
 				<button
 					onClick={changeCity}
-					className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 ml-2 rounded-lg"
+					className="bg-purple-500 hover:bg-purple-600 text-white px-4 py-2 rounded-lg"
 				>
 					変更
 				</button>
@@ -137,7 +137,7 @@ function WeatherCard() {
 				<div className="text-4xl font-bold text-blue-600 mb-2">{temp}℃</div>
 				<div className="text-lg text-gray-700 mb-4">{weatherDesc}</div>
 
-				<div>
+				<div className="grid grid-cols-2 gap-2">
 					<button
 						onClick={changeSunny}
 						className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-2 rounded-lg text-sm"
@@ -151,13 +151,13 @@ function WeatherCard() {
 						☁️ 曇り
 					</button>
 					<button
-						onClick={changeSunny}
+						onClick={changeRainy}
 						className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm"
 					>
 						🌧️ 雨
 					</button>
 					<button
-						onClick={changeSunny}
+						onClick={changeSnowy}
 						className="bg-purple-500 hover:bg-purple-600 text-white px-3 py-2 rounded-lg text-sm"
 					>
 						❄️ 雪
