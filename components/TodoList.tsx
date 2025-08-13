@@ -98,7 +98,7 @@ export default function TodoList() {
 							onClick={() => deleteTodo(todo.id)}
 							className="text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded text-sm font-bold"
 						>
-							×
+							✕
 						</button>
 					</div>
 				))}
